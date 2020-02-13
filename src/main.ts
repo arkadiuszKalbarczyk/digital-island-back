@@ -2,16 +2,16 @@ import { ClassSerializerInterceptor, ValidationPipe } from '@nestjs/common';
 import { Transport } from '@nestjs/common/enums/transport.enum';
 import { NestFactory, Reflector } from '@nestjs/core';
 import {
-  ExpressAdapter,
-  NestExpressApplication,
+    ExpressAdapter,
+    NestExpressApplication,
 } from '@nestjs/platform-express';
 import * as compression from 'compression';
 import * as RateLimit from 'express-rate-limit';
 import * as helmet from 'helmet';
 import * as morgan from 'morgan';
 import {
-  initializeTransactionalContext,
-  patchTypeORMRepositoryWithBaseRepository,
+    initializeTransactionalContext,
+    patchTypeORMRepositoryWithBaseRepository,
 } from 'typeorm-transactional-cls-hooked';
 import { AppModule } from './app.module';
 import { HttpExceptionFilter } from './filters/bad-request.filter';
@@ -21,66 +21,74 @@ import { SharedModule } from './modules/shared/shared.module';
 import * as expressGraphQL from 'express-graphql';
 
 async function bootstrap() {
-  initializeTransactionalContext();
-  patchTypeORMRepositoryWithBaseRepository();
+    initializeTransactionalContext();
+    patchTypeORMRepositoryWithBaseRepository();
 
-  const app = await NestFactory.create<NestExpressApplication>(
-    AppModule,
-    new ExpressAdapter(),
-    { cors: false, logger: ['log', 'error', 'warn', 'debug', 'verbose'] },
-  );
-  app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
-  app.use(helmet());
-  app.use(
-    new RateLimit({
-      windowMs: 15 * 60 * 1000, // 15 minutes
-      max: 100, // limit each IP to 100 requests per windowMs
-    }),
-  );
-  app.use(compression());
-  app.use(morgan('combined'));
+    const app = await NestFactory.create<NestExpressApplication>(
+        AppModule,
+        new ExpressAdapter(),
+        {
+            cors: {
+                origin: [
+                    /digital-island-(back|app)\.herokuapp\.com$/,
+                    process.env.NODE_ENV === 'development' ? /localhost(\:\d+)?/ : undefined,
+                ],
+            },
+            logger: ['log', 'error', 'warn', 'debug', 'verbose'],
+        },
+    );
+    app.enable('trust proxy'); // only if you're behind a reverse proxy (Heroku, Bluemix, AWS ELB, Nginx, etc)
+    app.use(helmet());
+    app.use(
+        new RateLimit({
+            windowMs: 15 * 60 * 1000, // 15 minutes
+            max: 100, // limit each IP to 100 requests per windowMs
+        }),
+    );
+    app.use(compression());
+    app.use(morgan('combined'));
 
-  const reflector = app.get(Reflector);
+    const reflector = app.get(Reflector);
 
-  app.useGlobalFilters(
-    new HttpExceptionFilter(reflector),
-    new QueryFailedFilter(reflector),
-  );
+    app.useGlobalFilters(
+        new HttpExceptionFilter(reflector),
+        new QueryFailedFilter(reflector),
+    );
 
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
+    app.useGlobalInterceptors(new ClassSerializerInterceptor(reflector));
 
-  app.useGlobalPipes(
-    new ValidationPipe({
-      whitelist: true,
-      transform: true,
-      dismissDefaultMessages: true,
-      validationError: {
-        target: false,
-      },
-    }),
-  );
+    app.useGlobalPipes(
+        new ValidationPipe({
+            whitelist: true,
+            transform: true,
+            dismissDefaultMessages: true,
+            validationError: {
+                target: false,
+            },
+        }),
+    );
 
-  const configService = app.select(SharedModule).get(ConfigService);
+    const configService = app.select(SharedModule).get(ConfigService);
 
-  app.connectMicroservice({
-    transport: Transport.TCP,
-    options: {
-      port: configService.getNumber('TRANSPORT_PORT'),
-      retryAttempts: 5,
-      retryDelay: 3000,
-    },
-  });
+    app.connectMicroservice({
+        transport: Transport.TCP,
+        options: {
+            port: configService.getNumber('TRANSPORT_PORT'),
+            retryAttempts: 5,
+            retryDelay: 3000,
+        },
+    });
 
-  await app.startAllMicroservicesAsync();
+    await app.startAllMicroservicesAsync();
 
-  if (['development', 'staging'].includes(configService.nodeEnv)) {
-    // setupSwagger(app);
-  }
+    if (['development', 'staging'].includes(configService.nodeEnv)) {
+        // setupSwagger(app);
+    }
 
-  const port = process.env.PORT || configService.getNumber('PORT') || 5000;
-  await app.listen(port);
+    const port = process.env.PORT || configService.getNumber('PORT') || 5000;
+    await app.listen(port);
 
-  console.info(`server running on port ${port}`);
+    console.info(`server running on port ${port}`);
 }
 
 bootstrap();
