@@ -4,8 +4,8 @@
   "description": "",
   "author": "",
   "scripts": {
-    "prebuild": "rimraf dist",
-    "build": "nest build",
+    "postinstall": "tsc -p tsconfig.build.json",
+    "build": "tsc -p tsconfig.build.json",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:hmr": "node dist/main",
