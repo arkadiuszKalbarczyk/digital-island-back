@@ -13,9 +13,27 @@ lerna-debug.log*
 # OS
 .DS_Store
 
+# Runtime data
+pids
+*.pid
+*.seed
+*.pid.lock
+
 # Tests
 /coverage
 /.nyc_output
+
+# Optional eslint cache
+.eslintcache
+
+# dotfile environment variables file
+.env
+
+# node-waf configuration
+.lock-wscript
+
+# Compiled binary addons (https://nodejs.org/api/addons.html)
+build/Release
 
 # IDEs and editors
 /.idea
