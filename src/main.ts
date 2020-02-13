@@ -28,7 +28,12 @@ async function bootstrap() {
         AppModule,
         new ExpressAdapter(),
         {
-            cors: { origin: [/digital-island-(back|app)\.herokuapp\.com$/] },
+            cors: {
+                origin: [
+                    /digital-island-(back|app)\.herokuapp\.com$/,
+                    process.env.NODE_ENV === 'development' ? /localhost(\:\d+)?/ : undefined,
+                ],
+            },
             logger: ['log', 'error', 'warn', 'debug', 'verbose'],
         },
     );
