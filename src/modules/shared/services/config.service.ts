@@ -1,7 +1,6 @@
 import * as dotenv from 'dotenv';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
-import { SnakeNamingStrategy } from 'src/snake-naming.strategy';
-
+import { SnakeNamingStrategy } from './../../../snake-naming.strategy';
 
 export class ConfigService {
     constructor() {
