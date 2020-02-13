@@ -6,12 +6,10 @@
     "scripts": {
         "postinstall": "tsc -p tsconfig.build.json",
         "build": "tsc -p tsconfig.build.json",
-        "postbuild": "node dist/main",
         "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
         "start": "nest start",
         "start:hmr": "node dist/main",
         "start:dev": "ts-node -r tsconfig-paths/register src/main.ts",
-        "_start:dev": "nest start --watch",
         "start:debug": "nest start --debug --watch",
         "start:prod": "node dist/main",
         "lint": "tslint -p tsconfig.json -c tslint.json",
