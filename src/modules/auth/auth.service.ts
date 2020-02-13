@@ -8,7 +8,7 @@ import { UserService } from '../user/user.service';
 import { TokenPayloadDto } from './dto/TokenPayloadDto';
 import { UserLoginDto } from './dto/UserLoginDto';
 import { ConfigService } from '../shared/services/config.service';
-import { UserNotFoundException } from 'src/exceptions/user-not-found.exception';
+import { UserNotFoundException } from '../../exceptions/user-not-found.exception';
 
 @Injectable()
 export class AuthService {

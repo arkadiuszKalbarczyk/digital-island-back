@@ -8,7 +8,7 @@ import {
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { Column } from 'typeorm';
-import { RoleType } from 'src/common/constants/role-type';
+import { RoleType } from '../../../common/constants/role-type';
 
 export class UserRegisterDto {
     @IsString()
