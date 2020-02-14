@@ -49,9 +49,6 @@ export class AuthController {
 
   @Post('register')
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard, RolesGuard)
-  @UseInterceptors(AuthUserInterceptor)
-  @ApiBearerAuth()
   @ApiOkResponse({ type: UserDto, description: 'Successfully Registered' })
   async userRegister(
     @Body() userRegisterDto: UserRegisterDto,

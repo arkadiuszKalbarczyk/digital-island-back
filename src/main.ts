@@ -18,7 +18,8 @@ import { HttpExceptionFilter } from './filters/bad-request.filter';
 import { QueryFailedFilter } from './filters/query-failed.filter';
 import { ConfigService } from './modules/shared/services/config.service';
 import { SharedModule } from './modules/shared/shared.module';
-import * as expressGraphQL from 'express-graphql';
+
+import { setupSwagger } from './setup-swagger';
 
 async function bootstrap() {
     initializeTransactionalContext();
@@ -31,7 +32,9 @@ async function bootstrap() {
             cors: {
                 origin: [
                     /digital-island-(back|app)\.herokuapp\.com$/,
-                    process.env.NODE_ENV === 'development' ? /localhost(\:\d+)?/ : undefined,
+                    process.env.NODE_ENV === 'development'
+                        ? /localhost(\:\d+)?/
+                        : undefined,
                 ],
             },
             logger: ['log', 'error', 'warn', 'debug', 'verbose'],
@@ -82,7 +85,7 @@ async function bootstrap() {
     await app.startAllMicroservicesAsync();
 
     if (['development', 'staging'].includes(configService.nodeEnv)) {
-        // setupSwagger(app);
+        setupSwagger(app);
     }
 
     const port = process.env.PORT || configService.getNumber('PORT') || 5000;
