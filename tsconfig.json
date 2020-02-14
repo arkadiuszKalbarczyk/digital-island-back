@@ -6,7 +6,7 @@
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
-    "target": "es6",
+    "target": "es2016",
     "sourceMap": false,
     "allowJs": true,
     "outDir": "./dist",
