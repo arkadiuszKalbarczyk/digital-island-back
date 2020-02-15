@@ -2,22 +2,7 @@
 // tslint:disable: variable-name
 'use strict';
 
-import { TokenPayloadDto } from './TokenPayloadDto';
-import { UserDto } from '../../user/dto/UserDto';
 import { ApiProperty } from '@nestjs/swagger';
-
-// export class WeatherPayloadDto {
-//     @ApiProperty({ type: UserDto })
-//     user: UserDto;
-
-//     @ApiProperty({ type: TokenPayloadDto })
-//     token: TokenPayloadDto;
-
-//     constructor(user: UserDto, token: TokenPayloadDto) {
-//         this.user = user;
-//         this.token = token;
-//     }
-// }
 
 export class WeatherMain {
     @ApiProperty({ type: Number })
@@ -112,16 +97,12 @@ export class WeatherCity {
 export class WeatherPayloadDto {
     @ApiProperty({ type: String })
     cod: string;
-
     @ApiProperty({ type: Number })
     message: number;
-
     @ApiProperty({ type: Number })
     cnt: number;
-
     @ApiProperty({ type: WeatherList })
     list: WeatherList[];
-
     @ApiProperty({ type: WeatherCity })
     city: WeatherCity;
 }

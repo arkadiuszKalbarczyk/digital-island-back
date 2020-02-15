@@ -1,9 +1,5 @@
-import { Injectable, HttpService } from '@nestjs/common';
+import { HttpService, Injectable } from '@nestjs/common';
 import { ContextService } from '../../providers/context.service';
-import { UtilsService } from '../../providers/utils.service';
-import { UserEntity } from '../user/user.entity';
-import { UserLoginDto } from './dto/UserLoginDto';
-import { UserNotFoundException } from '../../exceptions/user-not-found.exception';
 import { WeatherPayloadDto } from './dto/WeatherPayloadDto';
 
 @Injectable()

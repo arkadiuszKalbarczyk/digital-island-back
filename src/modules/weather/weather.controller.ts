@@ -1,18 +1,7 @@
-import {
-    Controller,
-    Logger,
-    Post,
-    Body,
-    HttpCode,
-    HttpStatus,
-    Get,
-    UseInterceptors,
-    UseGuards,
-} from '@nestjs/common';
-import { ApiOkResponse, ApiTags, ApiBearerAuth } from '@nestjs/swagger';
-
-import { WeatherService } from './weather.service';
+import { Controller, Get, HttpCode, HttpStatus, Logger } from '@nestjs/common';
+import { ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { WeatherPayloadDto } from './dto/WeatherPayloadDto';
+import { WeatherService } from './weather.service';
 
 @Controller('weather')
 @ApiTags('weather')
