@@ -10,9 +10,6 @@ export class WeatherService {
     constructor(private readonly httpService: HttpService) {}
 
     async getWeather(): Promise<any> {
-        console.log(
-            (new Date().getTime() - WeatherService._refreshTime) / 1000,
-        );
         if ((new Date().getTime() - WeatherService._refreshTime) / 1000 > 2) {
             WeatherService._refreshTime = new Date().getTime();
             const { lat, lon } = { lat: 64.128288, lon: -21.827774 };
