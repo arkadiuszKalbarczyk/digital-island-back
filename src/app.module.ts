@@ -10,6 +10,7 @@ import { SharedModule } from './modules/shared/shared.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
+import { WeatherModule } from './modules/weather/weather.module';
 
 @Module({
     imports: [
@@ -25,6 +26,7 @@ import { GraphQLModule } from '@nestjs/graphql';
             installSubscriptionHandlers: true,
             autoSchemaFile: 'schema.gql',
         }),
+        WeatherModule,
     ],
     controllers: [AppController],
     providers: [AppService],
