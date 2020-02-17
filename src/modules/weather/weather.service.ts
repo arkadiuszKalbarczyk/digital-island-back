@@ -10,7 +10,7 @@ export class WeatherService {
     constructor(private readonly httpService: HttpService) {}
 
     async getWeather(): Promise<any> {
-        if ((new Date().getTime() - WeatherService._refreshTime) / 1000 > 2) {
+        if ((new Date().getTime() - WeatherService._refreshTime) > 200) {
             WeatherService._refreshTime = new Date().getTime();
             const { lat, lon } = { lat: 64.128288, lon: -21.827774 };
             const weatherAPI = `https://api.openweathermap.org/data/2.5/forecast?lat=${lat}&lon=${lon}&APPID=${process.env.WEATHER_API_KEY}`;
