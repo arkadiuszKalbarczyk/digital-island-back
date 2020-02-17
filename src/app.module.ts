@@ -11,6 +11,7 @@ import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { GraphQLModule } from '@nestjs/graphql';
 import { WeatherModule } from './modules/weather/weather.module';
+import { ComponentModule } from './modules/components/component.module';
 
 @Module({
     imports: [
@@ -27,6 +28,7 @@ import { WeatherModule } from './modules/weather/weather.module';
             autoSchemaFile: 'schema.gql',
         }),
         WeatherModule,
+        ComponentModule,
     ],
     controllers: [AppController],
     providers: [AppService],
