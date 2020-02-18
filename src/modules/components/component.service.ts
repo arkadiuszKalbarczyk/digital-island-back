@@ -17,7 +17,7 @@ export class ComponentService {
     ): Promise<SearchComponentPayloadDto[]> {
         const titlePostfix =
             searchHeadersDto &&
-            (searchHeadersDto.lang === 'pl' || searchHeadersDto.lang) === 'en'
+            (searchHeadersDto.lang === 'pl' || searchHeadersDto.lang === 'en')
                 ? '_' + searchHeadersDto.lang
                 : '';
         const select = `component, title${titlePostfix} as title`;
